@@ -79,6 +79,17 @@ app.get('/api/data', verifyToken, (req, res) => {
   res.json(data);
 });
 
+app.get('/api/data/:id', verifyToken, (req, res) => {
+  const { id } = req.params;
+  const data = readData();
+  const item = data.find(item => item.id === id);
+  if (item) {
+    res.json(item);
+  } else {
+    res.status(404).json({ message: 'Data not found' });
+  }
+});
+
 app.post('/api/data', verifyToken, (req, res) => {
   const newData = req.body;
   newData.id = uuidv4();
